@@ -4,6 +4,10 @@
 ;; You may delete these explanatory comments.
 (package-initialize)
 
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+(require 'init-packages)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -16,57 +20,16 @@
  '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
-	("eb0a314ac9f75a2bf6ed53563b5d28b563eeba938f8433f6d1db781a47da1366" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(package-archives
-   (quote
-	(("gnu" . "http://elpa.emacs-china.org/gnu/")
-	 ("melpa" . "http://elpa.emacs-china.org/melpa/")
-	 ("popkit" . "http://elpa.popkit.org/packages/")))))
-
-;; cl - Common Lisp Extension
-(require 'cl)
-
-;; Add package
-(defvar my/packages '(
-		;; --- Auto-completion ---
-		company
-		;; --- Better Editor ---
-		hungry-delete
-		swiper
-		counsel
-		smartparens
-		chinese-fonts-setup
-		smartparens
-		;; --- Major Mode ---
-
-		;; --- Minor Mode ---
-		
-		;; --- Themes ---
-		dracula-theme
-		) "Default packages")
-
-(setq package-selected-packages my/packages)
-
-;; Package auto install fucntion
-(defun my/packages-installed-p ()
-     (loop for pkg in my/packages
-	   when (not (package-installed-p pkg)) do (return nil)
-	   finally (return t)))
-
- (unless (my/packages-installed-p)
-     (message "%s" "Refreshing package database...")
-     (package-refresh-contents)
-     (dolist (pkg my/packages)
-       (when (not (package-installed-p pkg))
-	 (package-install pkg))))
+	("eb0a314ac9f75a2bf6ed53563b5d28b563eeba938f8433f6d1db781a47da1366" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default))))
 
 
 ;; set the default text coding system
 (setq default-buffer-file-coding-system 'utf-8)
 (prefer-coding-system 'utf-8)
 
-;; 关闭备份文件功能
+;; 关闭备份文件功能 自动保存功能
 (setq make-backup-files nil)
+(setq auto-save-default nil)
 
 ;; 设置光标的样式
 ;; setq 和 setq-default 如果不是buffer-local(每一个buffer都有这个值)的话，二者等价
@@ -96,12 +59,14 @@
 
 (global-set-key (kbd "<f2>") 'open-my-init-file)
 
-;; set company extension
-(global-company-mode t)
+
 ;; always replace tab with 4 space
 (setq-default tab-width 4)
 ;; set different ruby mode
 (setq ruby-indent-level 4)
+
+;; 保持emacs内外部文件相同
+(global-auto-composition-mode t)
 
 ;; turn off tool-bar
 ;; turn off scroll-bar
@@ -119,22 +84,8 @@
 (setq org-agenda-files '("d:/Org"))
 (global-set-key (kbd "C-c a") 'org-agenda)
 
-;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-;; (chinese-fonts-setup-enable)
-;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-;; (cfs-set-spacemacs-fallback-fonts)
-(require 'chinese-fonts-setup)
-;; 开启emacs时启动cfs插件
-(chinese-fonts-setup-enable)
 
-;; Use hungry-delete mode
-(require 'hungry-delete)
-(global-hungry-delete-mode)
 
-;; Swiper config (M-x strengthen)
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
 (global-set-key "\C-s" 'swiper)
 (global-set-key (kbd "C-c C-r") 'ivy-resume)
 (global-set-key (kbd "<f6>") 'ivy-resume)
@@ -142,7 +93,4 @@
 (global-set-key (kbd "<f1> f") 'counsel-describe-function)
 (global-set-key (kbd "<f1> v") 'counsel-describe-variable)
 
-;; smartparens config
-(require 'smartparens-config)
-;; (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
-(smartparens-global-mode t)
+(setq ring-bell-function 'ignore)
