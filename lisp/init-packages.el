@@ -22,7 +22,7 @@
 		;; --- Major Mode ---
 
 		;; --- Minor Mode ---
-		
+
 		;; --- Themes ---
 		dracula-theme
 		) "Default packages")
@@ -50,14 +50,6 @@
 (require 'hungry-delete)
 (global-hungry-delete-mode)
 
-;; 让 chinese-fonts-setup 随着 emacs 自动生效。
-;; (chinese-fonts-setup-enable)
-;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
-;; (cfs-set-spacemacs-fallback-fonts)
-(require 'chinese-fonts-setup)
-;; 开启emacs时启动cfs插件
-(chinese-fonts-setup-enable)
-
 ;; Swiper config (M-x strengthen)
 (ivy-mode 1)
 (setq ivy-use-virtual-buffers t)
@@ -71,8 +63,15 @@
 (popwin-mode t)
 
 ;; smartparens config
-(require 'smartparens-config)
 ;; (add-hook 'emacs-lisp-mode-hook 'smartparens-mode)
 (smartparens-global-mode t)
 
-(provide 'init-packages) 
+;; 开启emacs时启动cfs插件
+(require 'chinese-fonts-setup)
+;; 让 chinese-fonts-setup 随着 emacs 自动生效。
+(chinese-fonts-setup-enable)
+;; 让 spacemacs mode-line 中的 Unicode 图标正确显示。
+;; (cfs-set-spacemacs-fallback-fonts)
+
+
+(provide 'init-packages)
